@@ -62,8 +62,12 @@ if (file_exists(ROOT_DIR . '.env')) {
             $value = substr($value, 1, -1);
         }
 
-        putenv("$key=$value");
-        $_ENV[$key] = $_SERVER[$key] = $value;
+        $environment_value = getenv($key);
+        if ($environment_value === false) {
+            $environment_value = $value;
+            putenv("$key=$environment_value");
+        }
+        $_ENV[$key] = $_SERVER[$key] = $environment_value;
     }
 }
 
